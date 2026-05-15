@@ -54,6 +54,10 @@ const App = () => {
     }));
   };
 
+  const deleteTask = (id: string) => {
+    setTasks(tasks.filter(task => task.id !== id));
+  };
+
   const isOverdue = (task: Task) => {
     if (task.status === 'Done') return false;
     const today = new Date().toISOString().split('T')[0];
@@ -150,6 +154,12 @@ const App = () => {
                       → {next}
                     </button>
                   )}
+                  <button
+                    onClick={() => deleteTask(task.id)}
+                    className="px-3 py-1 text-sm bg-red-100 text-red-700 rounded hover:bg-red-200 transition"
+                  >
+                    Удалить
+                  </button>
                 </div>
               </div>
             );
