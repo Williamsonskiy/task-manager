@@ -54,6 +54,12 @@ const App = () => {
     }));
   };
 
+  const isOverdue = (task: Task) => {
+    if (task.status === 'Done') return false;
+    const today = new Date().toISOString().split('T')[0];
+    return task.deadline < today;
+  };
+
   const filteredTasks = tasks.filter(task =>
     filter === 'All' ? true : task.status === filter
   );
@@ -119,12 +125,15 @@ const App = () => {
           <p className="text-center text-gray-500 py-8">Нет задач</p>
         ) : (
           filteredTasks.map(task => {
+            const overdue = isOverdue(task);
             const next = nextStatus[task.status];
 
             return (
               <div
                 key={task.id}
-                className="bg-white p-4 rounded-lg flex items-center justify-between border border-gray-200"
+                className={`bg-white p-4 rounded-lg flex items-center justify-between ${
+                  overdue ? 'border-2 border-red-500' : 'border border-gray-200'
+                }`}
               >
                 <div className="flex-1">
                   <h3 className="font-medium text-gray-800">{task.title}</h3>
